@@ -6,7 +6,7 @@ This repository contains the empirical hardware telemetry verifying the core the
 By dynamically mapping lattice asymmetry, Prometheus trades physical circuit depth (accepting a massive SWAP penalty) for structural coherence, consistently outperforming standard heuristic routing at the decoherence wall.
 
 ### ⚠️ A Note on Methodology & IP
-Prometheus ESSP utilizes a proprietary Just-In-Time (JIT) topological routing engine. Because the active-avoidance equations and pulse-level scheduling architectures are currently pending patent protection, we cannot disclose the compilation source code. We have instead provided the raw hardware telemetry, IBM Job IDs, and mathematical extraction tools for independent verification of the physical results.
+Prometheus utilizes a proprietary Just-In-Time (JIT) topological routing engine. Because the active-avoidance equations and pulse-level scheduling architectures are currently pending patent protection, we cannot disclose the compilation source code. We have instead provided the raw hardware telemetry, IBM Job IDs, and mathematical extraction tools for independent verification of the physical results.
 
 ---
 
