@@ -10,8 +10,8 @@ Prometheus utilizes a proprietary quantum compilation architecture. Because the 
 
 ---
 
-## Phase 1: The Heron r2 Benchmarks (4,096 Shots)
-The initial head-to-head executions were performed on an **IBM 156-qubit Heron r2 processor** (`ibm_fez`) against IBM's native compiler (Optimization Level 3).
+## Phase 1: The Baseline Benchmarks (4,096 Shots)
+The initial head-to-head executions were performed on an **IBM 156-qubit Heron processor** against IBM's native compiler (Optimization Level 3).
 
 | Algorithm | Qubits | Compiler | Shots | Native Entropy | Prometheus Entropy | Winner |
 | :--- | :---: | :--- | :---: | :---: | :---: | :--- |
@@ -42,13 +42,13 @@ To ensure the entropy reduction was not a statistical anomaly within a specific 
 All data required to audit these claims is provided in this repository.
 
 ### `/data`
-Contains the raw CSV ledgers detailing all depth counts, multi-metric analyses, and exact IBM Job IDs for both the Heron and Eagle executions:
+Contains the raw CSV ledgers detailing all depth counts, multi-metric analyses, and exact IBM Job IDs:
 * `benchmark_heron_4k.csv`
-* `benchmark_eagle_100k.csv`
+* `benchmark_heron_100k.csv`
 * `prometheus_telemetry.csv` (A 200-job scaling benchmark validating the inverse correlation between extreme gate depth and noise survival).
 
 ### `/scripts`
 Contains `cloud_telemetry_extractor.py`. Reviewers can execute this script using their own IBM Quantum API tokens to tunnel into the Qiskit Runtime API, download the raw Sampler V2 DataBins, and verify the Shannon Entropy math directly against the provided Job IDs.
 
 ### `Releases: Raw Hardware Vault`
-*(Note: A `.zip` file containing the raw, offline Sampler V2 PUB payloads has been attached to the GitHub Releases tab of this repository for skeptics wishing to verify the bitstrings without utilizing the IBM API).*
+A master archive (`Crucible_Raw_PUB_Payloads.zip`) containing the raw, offline Sampler V2 PUB payloads for the 100,000-shot matrix has been attached to the **GitHub Releases** tab of this repository. This allows extreme skeptics to verify the classical bitstring arrays and calculate the entropy offline without requiring an active IBM API token.
