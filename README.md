@@ -1,7 +1,7 @@
 # Prometheus ESSP Engine: Hardware Routing Benchmarks
 
 ## Overview
-This repository contains the empirical hardware telemetry verifying the core thesis of the Prometheus ESSP active-avoidance engine: **Topological routing can mathematically delay thermodynamic state collapse (decoherence) during high-depth algorithmic execution.**
+This repository contains the empirical hardware telemetry verifying the core thesis of the Prometheus active-avoidance engine: **Topological routing can mathematically delay thermodynamic state collapse (decoherence) during high-depth algorithmic execution.**
 
 By dynamically mapping lattice asymmetry, Prometheus trades physical circuit depth (accepting a massive SWAP penalty) for structural coherence, consistently outperforming standard heuristic routing at the decoherence wall.
 
