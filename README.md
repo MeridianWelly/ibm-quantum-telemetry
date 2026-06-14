@@ -10,6 +10,27 @@ Prometheus utilizes a proprietary quantum compilation architecture. Because the 
 
 ---
 
+## Conceptual Proof: Signal vs. Thermal Noise
+
+To visualize the real-world impact of the Prometheus architecture, we executed a baseline 5-Qubit asymmetrical circuit on the 156-qubit Heron (`ibm_fez`) mainframe. 
+
+When a quantum circuit collapses due to environmental cross-talk, its output scatters evenly across all possible states, resembling pure thermal noise. 
+
+### Telemetry Comparison (2,000 Total Shots)
+
+| Metric | Native Compiler (Level 3) | Prometheus Router | Impact |
+| :--- | :---: | :---: | :--- |
+| **Thermal Spread** (Unique States Infiltrated) | 32 / 32 states | **22 / 32 states** | **Prometheus suppressed 10 error pathways entirely.** |
+| **True Signal Retention** (Shots in Top 5 States) | 688 / 2000 shots | **1,861 / 2000 shots** | **2.7x amplification of the computational signal.** |
+
+### Raw State Distribution Peak
+* **Native Top Peak (11100):** 179 shots (Heavily diluted)
+* **Prometheus Top Peak (00000):** 915 shots (Highly focused)
+
+*Audit Log: The raw logging telemetry for this specific calibration window can be found in `/data/ibm_fez_benchmark_20260515.txt`. Exact IBM Job IDs are provided inside for cloud verification.*
+
+---
+
 ## Phase 1: The Baseline Benchmarks (4,096 Shots)
 The initial head-to-head executions were performed on an **IBM 156-qubit Heron processor** against IBM's native compiler (Optimization Level 3).
 
@@ -22,7 +43,7 @@ The initial head-to-head executions were performed on an **IBM 156-qubit Heron p
 ---
 
 ## Phase 2: Extreme-Depth Validation (100,000 Shots)
-To ensure the entropy reduction was not a statistical anomaly within a specific thermal window, we subjected the engine to extreme physical depths on an **IBM 156-qubit Heron processor** (`ibm_kingston`). We expanded the verification metrics to include Kullback-Leibler (KL) Divergence and Cross-Entropy Benchmarking (XEB).
+To ensure the entropy reduction was not a statistical anomaly within a specific thermal window, we subjected the engine to extreme physical depths on an **IBM 156-qubit Heron processor**. We expanded the verification metrics to include Kullback-Leibler (KL) Divergence and Cross-Entropy Benchmarking (XEB).
 
 | Algorithm | Qubits | Compiler | Physical Depth | Shannon Entropy | KL Divergence | XEB |
 | :--- | :---: | :--- | :---: | :---: | :---: | :---: |
@@ -42,10 +63,11 @@ To ensure the entropy reduction was not a statistical anomaly within a specific 
 All data required to audit these claims is provided directly within this repository.
 
 ### `/data`
+* `ibm_fez_benchmark_20260515.txt`: Raw hardware calibration logs for the 5-qubit Conceptual Proof.
 * `benchmark_heron_4k.csv`: The 4,096-shot baseline telemetry ledger matching the Phase 1 table.
 * `benchmark_heron_100k.csv`: The complete 100,000-shot statistical matrix matching the Phase 2 table.
 * `prometheus_telemetry.csv`: A 200-job scaling benchmark validating the inverse correlation between extreme gate depth and noise survival.
 * `Crucible_Raw_PUB_Payloads.zip`: A compressed archive containing the raw, offline IBM Sampler V2 PUB payloads (JSON files) for the 100k-shot matrix. This allows reviewers to verify the classical bitstring arrays and calculate the entropy offline without requiring an active IBM API token.
 
 ### `/scripts`
-Contains `cloud_telemetry_extractor.py`. Reviewers can execute this script using their own IBM Quantum API tokens to tunnel into the Qiskit Runtime API, download the raw Sampler V2 DataBins, and verify the Shannon Entropy math directly against the provided Job IDs.
+* `cloud_telemetry_extractor.py`: A verification script provided for reviewers. Execute this using your own IBM Quantum API token to tunnel into the Qiskit Runtime API, download the Sampler V2 DataBins, and verify the Shannon Entropy math directly against the provided Job IDs in the CSV ledgers.
