@@ -22,7 +22,7 @@ The initial head-to-head executions were performed on an **IBM 156-qubit Heron r
 ---
 
 ## Phase 2: Extreme-Depth Validation (100,000 Shots)
-To ensure the entropy reduction was not a statistical anomaly within a specific thermal window, we subjected the engine to extreme physical depths on an **IBM 127-qubit Eagle processor** (`ibm_kingston`). We expanded the verification metrics to include Kullback-Leibler (KL) Divergence and Cross-Entropy Benchmarking (XEB).
+To ensure the entropy reduction was not a statistical anomaly within a specific thermal window, we subjected the engine to extreme physical depths on an **IBM 156-qubit Heron processor** (`ibm_kingston`). We expanded the verification metrics to include Kullback-Leibler (KL) Divergence and Cross-Entropy Benchmarking (XEB).
 
 | Algorithm | Qubits | Compiler | Physical Depth | Shannon Entropy | KL Divergence | XEB |
 | :--- | :---: | :--- | :---: | :---: | :---: | :---: |
