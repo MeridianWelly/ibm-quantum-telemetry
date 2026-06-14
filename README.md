@@ -4,7 +4,7 @@ This repository contains the raw hardware telemetry, IBM Primitive Unified Blocs
 
 Prometheus is an active-avoidance dynamic routing compiler designed to preserve computational structure at transpilation depths beyond conventional hardware expectations. This repository serves as the public data room for independent verification of observed hardware measurements.
 
-##  Methodology
+## 🔬 Methodology
 
 All benchmark results were generated using identical logical circuits, identical shot counts, identical IBM Quantum calibration windows, and side-by-side compilation.
 
@@ -13,7 +13,7 @@ All benchmark results were generated using identical logical circuits, identical
 * **Test Payloads:** Structured logic networks including QFT, QAOA, Bernstein-Vazirani (BV), and GHZ states.
 * **Execution Parameters:** 4,096 shots (`ibm_fez`) and 100,000 shots (`ibm_kingston`) to force extreme thermal and decoherence thresholds.
 
-##  Repository Structure
+## 📂 Repository Structure
 
 The raw data is segmented into two primary archives corresponding to the benchmarks detailed on the Prometheus Dynamics website:
 
@@ -24,14 +24,28 @@ Contains the execution logs and cryptographic hardware proofs for the Shannon En
 
 ### 2. `ibm_kingston_pubs.zip`
 Contains the raw JSON result files and PUBS metadata for the extreme depth stress tests executed on `ibm_kingston`.
-* Includes the 100,000-shot execution bitstrings that yielded the verifiable 6,099 executed gate depth and anomalous XEB preservation.
+* Includes the 100,000-shot execution bitstrings yielding the verifiable executed gate depth and anomalous XEB preservation. 
+* *Note on Depth Metric:* "Depth" refers to the post-routing, hardware-native physical gate depth as reported natively by the IBM execution scheduler.
 
-##  Proprietary Intellectual Property Notice
+## 🛡️ Proprietary Intellectual Property Notice
 
 To protect the core intellectual property of the Prometheus active-avoidance routing topology, **we are intentionally withholding the post-transpilation Prometheus OpenQASM payloads.**
 
-We provide the Logical QASM (input architecture), the native SABRE QASM (baseline reference), and the raw IBM PUBS Bitstrings (output execution data). Executed gate depths, shot densities, and runtime parameters are natively timestamped and verifiable via the raw IBM output arrays. Evaluation should be based exclusively on reproducible, hardware-observed performance rather than internal algorithmic disclosure.
+We provide the Logical QASM (input architecture), the native SABRE QASM (baseline reference), and the raw IBM PUBS Bitstrings (output execution data). Executed physical depths, shot densities, and runtime parameters are natively timestamped and verifiable via the raw IBM output arrays. Evaluation should be based exclusively on reproducible, hardware-observed performance rather than internal algorithmic disclosure.
 
-##  Verification
+## 📊 Verification & Metrics
 
-Reviewers are encouraged to parse the IBM PUBS JSON files and run standard linear cross-entropy (XEB) and Shannon Entropy calculations against the raw bitstrings to independently verify the expectation values.
+Reviewers are encouraged to parse the IBM PUBS JSON files to independently verify the expectation values. 
+
+* **XEB Formulation:** Please note that reported XEB figures (e.g., 1.094) utilize a non-normalized, bare correlation variance formula derived directly from expectation measurements prior to standard amplitude dampening bounds. 
+* Reviewers applying normalized fidelity bounds should adjust their verification scripts accordingly to observe the relative baseline improvement.
+
+## 🚧 Known Limitations & Ongoing Evaluation
+
+To ensure empirical transparency, Prometheus Dynamics actively tracks regimes where the current engine topology exhibits sub-optimal mapping:
+
+* **Workload Dependency:** Performance advantages have been observed primarily on structured computational workloads (e.g., QFT, QAOA, BV).
+* **Cat-State Vulnerability:** GHZ-state benchmarks currently favor native SABRE compilation.
+* **Hardware Scope:** Cross-platform verification across alternative hardware modalities (e.g., trapped-ion) is ongoing.
+
+To evaluate whether the observed performance differential remains stable across broader algorithmic classes, Phase II scaling validation (including large-scale Random Quantum Circuits) is currently underway.
