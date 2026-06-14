@@ -39,16 +39,13 @@ To ensure the entropy reduction was not a statistical anomaly within a specific 
 
 ## Data Room Verification
 
-All data required to audit these claims is provided in this repository.
+All data required to audit these claims is provided directly within this repository.
 
 ### `/data`
-Contains the raw CSV ledgers detailing all depth counts, multi-metric analyses, and exact IBM Job IDs:
-* `benchmark_heron_4k.csv`
-* `benchmark_heron_100k.csv`
-* `prometheus_telemetry.csv` (A 200-job scaling benchmark validating the inverse correlation between extreme gate depth and noise survival).
+* `benchmark_heron_4k.csv`: The 4,096-shot baseline telemetry ledger matching the Phase 1 table.
+* `benchmark_heron_100k.csv`: The complete 100,000-shot statistical matrix matching the Phase 2 table.
+* `prometheus_telemetry.csv`: A 200-job scaling benchmark validating the inverse correlation between extreme gate depth and noise survival.
+* `Crucible_Raw_PUB_Payloads.zip`: A compressed archive containing the raw, offline IBM Sampler V2 PUB payloads (JSON files) for the 100k-shot matrix. This allows reviewers to verify the classical bitstring arrays and calculate the entropy offline without requiring an active IBM API token.
 
 ### `/scripts`
 Contains `cloud_telemetry_extractor.py`. Reviewers can execute this script using their own IBM Quantum API tokens to tunnel into the Qiskit Runtime API, download the raw Sampler V2 DataBins, and verify the Shannon Entropy math directly against the provided Job IDs.
-
-### `Releases: Raw Hardware Vault`
-A master archive (`Crucible_Raw_PUB_Payloads.zip`) containing the raw, offline Sampler V2 PUB payloads for the 100,000-shot matrix has been attached to the **GitHub Releases** tab of this repository. This allows extreme skeptics to verify the classical bitstring arrays and calculate the entropy offline without requiring an active IBM API token.
