@@ -1,4 +1,4 @@
-# Prometheus ESSP Engine: Hardware Routing Benchmarks
+# Prometheus Engine: Hardware Routing Benchmarks
 
 ## Overview
 This repository contains the empirical hardware telemetry verifying the core thesis of the Prometheus active-avoidance engine: **Topological routing can mathematically delay thermodynamic state collapse (decoherence) during high-depth algorithmic execution.**
@@ -21,7 +21,7 @@ The initial head-to-head executions were performed on an **IBM 156-qubit Heron r
 
 ---
 
-## Phase 2: The Grand Crucible (100,000 Shots)
+## Phase 2: The Crucible (100,000 Shots)
 To ensure the entropy reduction was not a statistical anomaly, we subjected the engine to extreme physical depths on an **IBM 127-qubit Eagle processor** (`ibm_kingston`). We expanded the verification metrics to include Kullback-Leibler (KL) Divergence, Heavy Output Probability (HOP), and Cross-Entropy Benchmarking (XEB).
 
 | Algorithm | Qubits | Compiler | Physical Depth | Shannon Entropy | KL Divergence | XEB |
