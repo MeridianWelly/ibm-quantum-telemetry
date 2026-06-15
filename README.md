@@ -23,7 +23,7 @@ The proprietary routing heuristics and tensor matrices of the Prometheus compile
 All executions were performed on the 156-qubit superconducting Heron architecture (`ibm_fez` and `ibm_kingston`). Control pipelines were strictly limited to IBM native compilation at Optimization Level 3 without readout error mitigation, exposing pure hardware behavior.
 
 ### 1. Deep-Scaling Matrix (200 Continuous Executions)
-To definitively rule out statistical anomalies or localized hardware cooling cycles, we mapped 200 continuous, perfectly interleaved executions to observe the correlation between extreme gate depth and state preservation.
+To definitively rule out statistical anomalies or temporal calibration drift, we mapped 200 continuous, perfectly interleaved executions to observe the correlation between extreme gate depth and state preservation.
 
 ![Depth vs Entropy Scatter Plot](https://raw.githubusercontent.com/MeridianWelly/ibm-quantum-telemetry/main/assets/depth_vs_entropy_scatter.png)
 *(Note: Visual representation of `prometheus_telemetry.csv`. Notice the clustering anomaly: Prometheus incurs ~1,000 extra physical routing gates yet consistently yields lower output entropy than the shallow SABRE benchmark.)*
