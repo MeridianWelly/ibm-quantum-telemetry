@@ -90,3 +90,6 @@ Reviewers with active premium IBM Quantum API tokens can tunnel directly into th
 **Example Execution:**
 ```bash
 python scripts/cloud_telemetry_extractor.py --job d83c1pg0bvlc73d38p2g
+
+### Option B: Local JSON Payload Auditing
+For reviewers without premium access, or those utilizing air-gapped machines, the raw `job-result.json` payloads are provided in the `/data` directory. Reviewers may parse the `BitArray` count structures using their preferred mathematical tooling to independently verify output distributions, depths, and entropies.
