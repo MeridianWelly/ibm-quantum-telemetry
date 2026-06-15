@@ -80,16 +80,17 @@ To facilitate rigorous scientific review, we establish the following experimenta
 
 All data required to audit these claims is provided directly within this repository. To accommodate different security postures and hardware access levels, there are two paths for independent verification:
 
-### Option A: Live Cloud Verification (Requires IBM Premium Access)
+### Option A: Local JSON Payload Auditing
+For reviewers without premium access, or those utilizing air-gapped machines, the raw `job-result.json` payloads are provided in the `/data` directory. Reviewers may parse the `BitArray` count structures using their preferred mathematical tooling to independently verify output distributions, depths, and entropies.
+
+### Option B: Live Cloud Verification (Requires IBM Premium Access)
 Reviewers with active premium IBM Quantum API tokens can tunnel directly into the Qiskit Runtime API to verify the historical job executions on the premium (Heron) mainframes.
 
 1. Open `/scripts/cloud_telemetry_extractor.py` in any text editor.
 2. Replace `"YOUR_IBM_TOKEN_HERE"` on line 53 with your active premium IBM API Token and save the file. *(Note: Free-tier tokens routing through the open-instance will return a "Job not found" error, as they lack clearance to view ledgers on premium hardware).*
 3. Open your terminal, navigate to the repository folder, and run the script by passing any Job ID from the provided CSV ledgers.
-
+   
 **Example Execution:**
 ```bash
 python scripts/cloud_telemetry_extractor.py --job d83c1pg0bvlc73d38p2g
 
-### Option B: Local JSON Payload Auditing
-For reviewers without premium access, or those utilizing air-gapped machines, the raw `job-result.json` payloads are provided in the `/data` directory. Reviewers may parse the `BitArray` count structures using their preferred mathematical tooling to independently verify output distributions, depths, and entropies.
