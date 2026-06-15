@@ -6,7 +6,7 @@ This repository contains the empirical hardware telemetry evaluating a novel qua
 
 Standard heuristic compilers (e.g., SABRE) optimize strictly for minimum physical depth, operating on the premise that 2-qubit operations (SWAP gates) introduce local depolarizing noise, and thus, physical gate depth correlates negatively with quantum state fidelity. 
 
-**The Observed Anomaly:** Our telemetry suggests that physical depth alone is not a sufficient predictor of computational degradation. Prometheus intentionally incurs massive physical depth penalties (inserting hundreds of additional SWAP gates to preserve global entanglement topologies), yet consistently yields lower output entropy and extracts stronger dominant signal peaks than shallow comparator circuits.
+**The Observed Anomaly:** Our telemetry suggests that physical gate depth alone is not a sufficient predictor of computational degradation. Prometheus intentionally incurs massive physical depth penalties (inserting hundreds of additional SWAP gates to preserve global entanglement topologies), yet consistently yields lower output entropy and extracts stronger dominant signal peaks than shallow comparator circuits.
 
 **The Working Hypothesis:** Preserving global entanglement structure and mathematically routing through specific hardware topologies may outweigh the local fidelity costs introduced by additional routing operations. 
 
@@ -22,7 +22,13 @@ The proprietary routing heuristics and tensor matrices of the Prometheus compile
 
 All executions were performed on the 156-qubit superconducting Heron architecture (`ibm_fez` and `ibm_kingston`). Control pipelines were strictly limited to IBM native compilation at Optimization Level 3 without readout error mitigation, exposing pure hardware behavior.
 
-### 1. Algorithm-Agnostic Peak Extraction
+### 1. Deep-Scaling Matrix (200 Continuous Executions)
+To definitively rule out statistical anomalies or localized hardware cooling cycles, we mapped 200 continuous, perfectly interleaved executions to observe the correlation between extreme gate depth and state preservation.
+
+![Depth vs Entropy Scatter Plot](https://raw.githubusercontent.com/MeridianWelly/ibm-quantum-telemetry/main/assets/depth_vs_entropy_scatter.png)
+*(Note: Visual representation of `prometheus_telemetry.csv`. Notice the clustering anomaly: Prometheus incurs ~1,000 extra physical routing gates yet consistently yields lower output entropy than the shallow SABRE benchmark.)*
+
+### 2. Algorithm-Agnostic Peak Extraction
 *Reference Job IDs: `d83f31ugbeec73amsoig` vs. `d83c1pg0bvlc73d38p2g`*
 
 Rather than focusing solely on theoretical noise bounds, this baseline 5-qubit asymmetrical EfficientSU2 execution isolates the compiler's ability to extract the **intended dominant signal** (the `00000` ground state) from the background noise floor.
@@ -32,19 +38,19 @@ Rather than focusing solely on theoretical noise bounds, this baseline 5-qubit a
 | SABRE (Level 3) | `00000` | Failure to isolate | 688 / 2000 shots |
 | **Prometheus Engine** | `00000` | **915 / 2000 shots** | **1861 / 2000 shots** |
 
-### 2. The Live QFT-8 Blind Test
+### 3. The Live QFT-8 Blind Test
 *Reference Job IDs: `d8o0o1jqv2lc7389ev00` vs. `d8o0o23qv2lc7389ev1g`*
 
-Executed on a randomized, LLM-generated QFT-8 circuit. Prometheus absorbed a 4.4x SWAP penalty while successfully isolating the dominant signal peak, resulting in a statistical tie for total entropy.
+Executed on a randomized, LLM-generated QFT-8 circuit. Prometheus absorbed a 4.4x SWAP penalty while successfully isolating the dominant signal peak.
 
 | Metric | SABRE (Level 3) | Prometheus Engine | Delta / Impact |
 | :--- | :--- | :--- | :--- |
 | **Physical Depth** | 200 gates | **893 gates** | + 4.4x Penalty |
-| **Shannon Entropy** | 7.7090 bits | 7.7317 bits | + 0.02 bits *(Within Variance)* |
+| **Shannon Entropy** | 7.7090 bits | 7.7317 bits | + 0.02 bits *(No meaningful separation observed)* |
 | **Top State Peak** | 46 shots | **68 shots** | **+ 47% True Signal Extraction** |
 
-### 3. Extreme Volumetric Testing (100,000 Shots)
-To ensure the entropy reduction was not a statistical anomaly within a localized thermal window, the engine was subjected to extreme physical depths and continuous execution loads. 
+### 4. Extreme Volumetric Testing (100,000 Shots)
+To ensure the signal retention was not a localized anomaly, the engine was subjected to extreme physical depths and continuous execution loads. 
 
 | Algorithm | Qubits | Compiler | Physical Depth | Shannon Entropy | KL Divergence | XEB |
 | :--- | :---: | :--- | :--- | :--- | :--- | :--- |
@@ -55,7 +61,7 @@ To ensure the entropy reduction was not a statistical anomaly within a localized
 | **QAOA** | 16 | SABRE (Native) | 139 gates | 15.41 bits | 5.079 | 0.581 |
 | **QAOA** | **16** | **Prometheus** | **291 gates** | **15.36 bits** | **5.483** | **0.610** |
 
-*\*Note on XEB Boundary: Under severe cross-talk suppression where experimental concentrations skew exponentially higher than chaotic Porter-Thomas distributions, the linear XEB estimator structurally shifts above unity under finite sampling ($N=100,000$).*
+*\*Note on XEB Boundary: Under highly concentrated experimental output distributions where counts skew exponentially higher than chaotic Porter-Thomas models, the linear XEB estimator structurally shifts above unity under finite sampling ($N=100,000$).*
 
 ---
 
