@@ -60,14 +60,15 @@ To ensure the entropy reduction was not a statistical anomaly within a specific 
 
 ## Data Room Verification
 
-All data required to audit these claims is provided directly within this repository.
+All data required to audit these claims is provided directly within this repository. To accommodate different security postures and hardware access levels, there are two paths for independent verification:
 
-### `/data`
-* `ibm_fez_benchmark_20260515.txt`: Raw hardware calibration logs for the 5-qubit Conceptual Proof.
-* `benchmark_heron_4k.csv`: The 4,096-shot baseline telemetry ledger matching the Phase 1 table.
-* `benchmark_heron_100k.csv`: The complete 100,000-shot statistical matrix matching the Phase 2 table.
-* `prometheus_telemetry.csv`: A 200-job scaling benchmark validating the inverse correlation between extreme gate depth and noise survival.
-* `Crucible_Raw_PUB_Payloads.zip`: A compressed archive containing the raw, offline IBM Sampler V2 PUB payloads (JSON files) for the 100k-shot matrix. This allows reviewers to verify the classical bitstring arrays and calculate the entropy offline without requiring an active IBM API token.
+### Option A: Live Cloud Verification (Requires IBM Premium/Enterprise Access)
+Reviewers with active premium IBM Quantum API tokens can tunnel directly into the Qiskit Runtime API to verify the historical job executions on the premium `ibm_fez` (Heron) mainframe.
 
-### `/scripts`
-* `cloud_telemetry_extractor.py`: A verification script provided for reviewers. Execute this using your own IBM Quantum API token to tunnel into the Qiskit Runtime API, download the Sampler V2 DataBins, and verify the Shannon Entropy math directly against the provided Job IDs in the CSV ledgers.
+1. Open `/scripts/cloud_telemetry_extractor.py` in any text editor.
+2. Replace `"YOUR_IBM_TOKEN_HERE"` on line 53 with your active premium IBM API Token and save the file. *(Note: Free-tier tokens routing through the `open-instance` will return a "Job not found" error, as they lack clearance to view ledgers on premium hardware).*
+3. Open your terminal, navigate to the repository folder, and run the script by passing any Job ID from the provided CSV ledgers.
+
+**Example Execution:**
+```bash
+python scripts/cloud_telemetry_extractor.py --job d83c1pg0bvlc73d38p2g
