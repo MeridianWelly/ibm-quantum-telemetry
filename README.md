@@ -1,60 +1,72 @@
-# Prometheus Compiler: Hardware Routing Benchmarks
+# Prometheus Quantum Compiler: Empirical Telemetry & Hardware Benchmarks
 
-## Overview
-This repository contains the empirical hardware telemetry evaluating a novel quantum routing compiler (Prometheus). The data demonstrates a counter-intuitive physical result: **Strategic routing can mathematically delay thermodynamic state collapse (decoherence) during high-depth algorithmic execution, even when significantly increasing total gate count.**
+## The Topological Routing Anomaly
 
-By prioritizing structural coherence over minimum gate depth, Prometheus intentionally incurs a massive SWAP penalty. Despite this higher physical depth, it consistently outperforms standard native heuristic compilation at the decoherence wall by avoiding standard cross-talk and noise accumulation.
+This repository contains the empirical hardware telemetry evaluating a novel quantum routing architecture (Prometheus). The data documents a sustained physical anomaly that challenges the current Noisy Intermediate-Scale Quantum (NISQ) consensus. 
 
-### ⚠️ A Note on Methodology & IP
-Prometheus utilizes a proprietary quantum compilation architecture. Because the underlying equations and routing logic are currently pending patent protection, we cannot disclose the compilation source code. We have instead provided the raw hardware telemetry, IBM Job IDs, and mathematical extraction tools for independent verification of the physical results.
+Standard heuristic compilers (e.g., SABRE) optimize strictly for minimum physical depth, operating on the premise that 2-qubit operations (SWAP gates) introduce local depolarizing noise, and thus, physical gate depth correlates negatively with quantum state fidelity. 
 
----
+**The Observed Anomaly:** Our telemetry suggests that physical depth alone is not a sufficient predictor of computational degradation. Prometheus intentionally incurs massive physical depth penalties (inserting hundreds of additional SWAP gates to preserve global entanglement topologies), yet consistently yields lower output entropy and extracts stronger dominant signal peaks than shallow comparator circuits.
 
-## Conceptual Proof: Signal vs. Thermal Noise
-
-To visualize the real-world impact of the Prometheus architecture, we executed a baseline 5-Qubit asymmetrical circuit on the 156-qubit Heron (`ibm_fez`) mainframe. 
-
-When a quantum circuit collapses due to environmental cross-talk, its output scatters evenly across all possible states, resembling pure thermal noise. 
-
-### Telemetry Comparison (2,000 Total Shots)
-
-| Metric | Native Compiler (Level 3) | Prometheus Router | Impact |
-| :--- | :---: | :---: | :--- |
-| **Thermal Spread** (Unique States Infiltrated) | 32 / 32 states | **22 / 32 states** | **Prometheus suppressed 10 error pathways entirely.** |
-| **True Signal Retention** (Shots in Top 5 States) | 688 / 2000 shots | **1,861 / 2000 shots** | **2.7x amplification of the computational signal.** |
-
-### Raw State Distribution Peak
-* **Native Top Peak (11100):** 179 shots (Heavily diluted)
-* **Prometheus Top Peak (00000):** 915 shots (Highly focused)
-
-*Audit Log: The raw logging telemetry for this specific calibration window can be found in `/data/ibm_fez_benchmark_20260515.txt`. Exact IBM Job IDs are provided inside for cloud verification.*
+**The Working Hypothesis:** Preserving global entanglement structure and mathematically routing through specific hardware topologies may outweigh the local fidelity costs introduced by additional routing operations. 
 
 ---
 
-## Phase 1: The Baseline Benchmarks (4,096 Shots)
-The initial head-to-head executions were performed on an **IBM 156-qubit Heron processor** against IBM's native compiler (Optimization Level 3).
+## Zero-Trust Methodology & Air-Gapped IP
 
-| Algorithm | Qubits | Compiler | Shots | Native Entropy | Prometheus Entropy | Winner |
-| :--- | :---: | :--- | :---: | :---: | :---: | :--- |
-| **QFT** | 8 | Native / Prometheus | 4096 | 7.70 bits | **6.49 bits** | **PROMETHEUS** |
-| **QFT** | 12 | Native / Prometheus | 4096 | 10.84 bits | **10.48 bits** | **PROMETHEUS** |
-| **QAOA** | 12 | Native / Prometheus | 4096 | 11.12 bits | **11.10 bits** | **PROMETHEUS** |
+The proprietary routing heuristics and tensor matrices of the Prometheus compiler are strictly air-gapped pending patent protection. **We do not provide API access, black-box modules, or compiler binaries.** Instead, institutional review is conducted exclusively via zero-trust auditing. We have provided the raw hardware telemetry, unmodified IBM `job-result.json` payloads, transpiled OpenQASM circuits, and mathematical extraction tools for independent verification of the physical phenomena. Reviewers are invited to parse the payloads using their own extraction logic.
 
 ---
 
-## Phase 2: Extreme-Depth Validation (100,000 Shots)
-To ensure the entropy reduction was not a statistical anomaly within a specific thermal window, we subjected the engine to extreme physical depths on an **IBM 156-qubit Heron processor**. We expanded the verification metrics to include Kullback-Leibler (KL) Divergence and Cross-Entropy Benchmarking (XEB).
+## Key Empirical Evidence
+
+All executions were performed on the 156-qubit superconducting Heron architecture (`ibm_fez` and `ibm_kingston`). Control pipelines were strictly limited to IBM native compilation at Optimization Level 3 without readout error mitigation, exposing pure hardware behavior.
+
+### 1. Algorithm-Agnostic Peak Extraction
+*Reference Job IDs: `d83f31ugbeec73amsoig` vs. `d83c1pg0bvlc73d38p2g`*
+
+Rather than focusing solely on theoretical noise bounds, this baseline 5-qubit asymmetrical EfficientSU2 execution isolates the compiler's ability to extract the **intended dominant signal** (the `00000` ground state) from the background noise floor.
+
+| Compiler Pipeline | Target Signal State | Target Extraction (Shots) | Top-5 State Retention |
+| :--- | :---: | :---: | :---: |
+| SABRE (Level 3) | `00000` | Failure to isolate | 688 / 2000 shots |
+| **Prometheus Engine** | `00000` | **915 / 2000 shots** | **1861 / 2000 shots** |
+
+### 2. The Live QFT-8 Blind Test
+*Reference Job IDs: `d8o0o1jqv2lc7389ev00` vs. `d8o0o23qv2lc7389ev1g`*
+
+Executed on a randomized, LLM-generated QFT-8 circuit. Prometheus absorbed a 4.4x SWAP penalty while successfully isolating the dominant signal peak, resulting in a statistical tie for total entropy.
+
+| Metric | SABRE (Level 3) | Prometheus Engine | Delta / Impact |
+| :--- | :--- | :--- | :--- |
+| **Physical Depth** | 200 gates | **893 gates** | + 4.4x Penalty |
+| **Shannon Entropy** | 7.7090 bits | 7.7317 bits | + 0.02 bits *(Within Variance)* |
+| **Top State Peak** | 46 shots | **68 shots** | **+ 47% True Signal Extraction** |
+
+### 3. Extreme Volumetric Testing (100,000 Shots)
+To ensure the entropy reduction was not a statistical anomaly within a localized thermal window, the engine was subjected to extreme physical depths and continuous execution loads. 
 
 | Algorithm | Qubits | Compiler | Physical Depth | Shannon Entropy | KL Divergence | XEB |
-| :--- | :---: | :--- | :---: | :---: | :---: | :---: |
-| **QFT** | 8 | Native Compiler | 183 gates | 7.95 bits | 0.045 | 0.000 |
-| **QFT** | **8** | **Prometheus** | **1,282 gates** | **6.60 bits** | **1.636** | **0.111** |
-| **QAOA** | 12 | Native Compiler | 110 gates | 11.90 bits | 0.071 | 0.747 |
+| :--- | :---: | :--- | :--- | :--- | :--- | :--- |
+| **QFT** | 8 | SABRE (Native) | 183 gates | 7.95 bits | 0.045 | 0.000 |
+| **QFT** | **8** | **Prometheus** | **1,282 gates** | **6.60 bits** | **1.636** | **1.094\*** |
+| **QAOA** | 12 | SABRE (Native) | 110 gates | 11.90 bits | 0.071 | 0.747 |
 | **QAOA** | **12** | **Prometheus** | **227 gates** | **11.87 bits** | **0.121** | **0.669** |
-| **QAOA** | 16 | Native Compiler | 139 gates | 15.41 bits | 5.079 | 0.581 |
+| **QAOA** | 16 | SABRE (Native) | 139 gates | 15.41 bits | 5.079 | 0.581 |
 | **QAOA** | **16** | **Prometheus** | **291 gates** | **15.36 bits** | **5.483** | **0.610** |
 
-*Result: Despite incurring up to a 7x physical gate depth penalty, Prometheus maintained lower Shannon Entropy and higher structural survival across 100% of the extreme-depth volumetric testing matrix.*
+*\*Note on XEB Boundary: Under severe cross-talk suppression where experimental concentrations skew exponentially higher than chaotic Porter-Thomas distributions, the linear XEB estimator structurally shifts above unity under finite sampling ($N=100,000$).*
+
+---
+
+## Falsification Criteria
+
+To facilitate rigorous scientific review, we establish the following experimental conditions under which the Prometheus routing hypothesis would be falsified:
+
+1. **Statistical Convergence:** Replication showing Prometheus entropy metrics converging to, or exceeding, native SABRE performance as sample sizes (shots/runs) approach infinity.
+2. **Hardware Dependency:** Complete failure to reproduce the topological insulation effect on independent superconducting processors.
+3. **Randomized Benchmarks:** Randomized input-state executions consistently eliminating the depth-performance separation observed in structured algorithms.
+4. **Routing Parity:** Alternative heuristic routing passes (e.g., `t|ket⟩` or randomized SWAP networks) generating matching signal extraction at equivalent physical depths.
 
 ---
 
@@ -62,11 +74,11 @@ To ensure the entropy reduction was not a statistical anomaly within a specific 
 
 All data required to audit these claims is provided directly within this repository. To accommodate different security postures and hardware access levels, there are two paths for independent verification:
 
-### Option A: Live Cloud Verification (Requires IBM Premium/Enterprise Access)
+### Option A: Live Cloud Verification (Requires IBM Premium Access)
 Reviewers with active premium IBM Quantum API tokens can tunnel directly into the Qiskit Runtime API to verify the historical job executions on the premium (Heron) mainframes.
 
 1. Open `/scripts/cloud_telemetry_extractor.py` in any text editor.
-2. Replace `"YOUR_IBM_TOKEN_HERE"` on line 53 with your active premium IBM API Token and save the file. *(Note: Free-tier tokens routing through the `open-instance` will return a "Job not found" error, as they lack clearance to view ledgers on premium hardware).*
+2. Replace `"YOUR_IBM_TOKEN_HERE"` on line 53 with your active premium IBM API Token and save the file. *(Note: Free-tier tokens routing through the open-instance will return a "Job not found" error, as they lack clearance to view ledgers on premium hardware).*
 3. Open your terminal, navigate to the repository folder, and run the script by passing any Job ID from the provided CSV ledgers.
 
 **Example Execution:**
