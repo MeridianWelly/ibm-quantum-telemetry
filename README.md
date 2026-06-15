@@ -63,7 +63,7 @@ To ensure the entropy reduction was not a statistical anomaly within a specific 
 All data required to audit these claims is provided directly within this repository. To accommodate different security postures and hardware access levels, there are two paths for independent verification:
 
 ### Option A: Live Cloud Verification (Requires IBM Premium/Enterprise Access)
-Reviewers with active premium IBM Quantum API tokens can tunnel directly into the Qiskit Runtime API to verify the historical job executions on the premium `ibm_fez` (Heron) mainframe.
+Reviewers with active premium IBM Quantum API tokens can tunnel directly into the Qiskit Runtime API to verify the historical job executions on the premium (Heron) mainframes.
 
 1. Open `/scripts/cloud_telemetry_extractor.py` in any text editor.
 2. Replace `"YOUR_IBM_TOKEN_HERE"` on line 53 with your active premium IBM API Token and save the file. *(Note: Free-tier tokens routing through the `open-instance` will return a "Job not found" error, as they lack clearance to view ledgers on premium hardware).*
